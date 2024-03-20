@@ -39,9 +39,14 @@ class AnswerType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
 
+    all_quizzes = graphene.List(QuizzesType)
     all_questions = graphene.Field(QuestionType, id=graphene.Int())
     all_answers = graphene.List(AnswerType, id=graphene.Int())
 
+
+    def resolve_all_quizzes(root, info):
+        return Quizzes.objects.all()
+    
 
     def resolve_all_questions(root, info, id):
         return Question.objects.get(pk=id)
